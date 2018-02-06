@@ -6,7 +6,7 @@ import os
 
 reddit = praw.Reddit(client_id=os.getenv(reddit_id),
                      client_secret=os.getenv(reddit_secret),
-                     user_agent=os.getev(reddit_user_agent))
+                     user_agent=os.getenv(reddit_user_agent))
 
 bot = telegram.Bot(os.getenv(telegram_token))
 
