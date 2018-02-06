@@ -17,7 +17,7 @@ cache = []
 manga_list = os.getenv(manga).split(', ')
 anime_list = os.getenv(anime).split(', ')
 
-@sched.scheduled_job('interval', seconds=os.getenv(manga_interval))
+@sched.scheduled_job('interval', seconds=int(os.getenv(manga_interval)))
 def scrape_manga():
     print('Checking for manga at ' + str(datetime.now()))
     output = ''
@@ -31,7 +31,7 @@ def scrape_manga():
         bot.send_message(chat_id=57658796, text='MANGA:\n\n' + output)
 
 
-@sched.scheduled_job('interval', seconds=os.getenv(re_zero_interval))
+@sched.scheduled_job('interval', seconds=int(os.getenv(re_zero_interval)))
 def scrape_re_zero():
     print('Checking for new Re:Zero chapter at ' + str(datetime.now()))
     output = ''
@@ -45,7 +45,7 @@ def scrape_re_zero():
         bot.send_message(chat_id=57658796, text='RE:ZERO:\n\n' + output)
 
 
-@sched.scheduled_job('interval', seconds=os.getenv(anime_interval))
+@sched.scheduled_job('interval', seconds=int(os.getenv(anime_interval)))
 def scrape_anime():
     print('Checking for anime at ' + str(datetime.now()))
     output = ''
@@ -60,7 +60,7 @@ def scrape_anime():
         bot.send_message(chat_id=57658796, text='ANIME:\n\n' + output)
         
 
-@sched.scheduled_job('interval', seconds=os.getenv(clear_interval))
+@sched.scheduled_job('interval', seconds=int(os.getenv(clear_interval)))
 def clear_cache():
     print('Resetting cache at ' + str(datetime.now()))
     del cache[:]
