@@ -21,7 +21,7 @@ anime_list = os.getenv('anime').split(', ')
 def scrape_manga():
     print('Checking for manga at ' + str(datetime.now()))
     output = ''
-    for manga in cfg.manga_list:
+    for manga in manga_list:
         for submission in reddit.subreddit('manga').search(manga, sort='new', time_filter='day'):
             if '[DISC]' in submission.title and not submission.is_self and submission.permalink not in cache:
                 print(submission.title + ' ' + submission.url)
@@ -49,7 +49,7 @@ def scrape_re_zero():
 def scrape_anime():
     print('Checking for anime at ' + str(datetime.now()))
     output = ''
-    for anime in cfg.anime_list:
+    for anime in anime_list:
         for submission in reddit.subreddit('anime').search(anime, sort='new', time_filter='day'):
             print(submission.title)
             if '[Spoilers]' in submission.title and submission.is_self and submission.permalink not in cache:
