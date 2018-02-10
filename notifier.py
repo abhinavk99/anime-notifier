@@ -51,8 +51,8 @@ def scrape_anime():
     output = ''
     for anime in anime_list:
         for submission in reddit.subreddit('anime').search(anime, sort='new', time_filter='day'):
-            print(submission.title)
-            if '[Spoilers]' in submission.title and submission.is_self and submission.permalink not in cache:
+            title = submission.title.lower()
+            if '[spoilers]' in title and 'discussion' in title and submission.is_self and submission.permalink not in cache:
                 print(submission.title + ' ' + submission.url)
                 cache.append(submission.permalink)
                 output += (submission.title + ' https://www.reddit.com' + submission.permalink + '\n\n')
