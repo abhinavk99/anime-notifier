@@ -22,9 +22,7 @@ def scrape_manga():
         for submission in reddit.subreddit('manga').search(manga, sort='new', time_filter='day'):
             title = submission.title.lower()
             if '[disc]' in title and not submission.is_self and submission.permalink not in cache:
-                print(submission.title + ' ' + submission.url)
-                cache.append(submission.permalink)
-                output += (submission.title + ' https://www.reddit.com' + submission.permalink + '\n\n')
+                sendMessage(submission.title, submission.url, submission.permalink)
     if output != '':
         bot.send_message(chat_id=57658796, text='MANGA:\n\n' + output)
 
@@ -36,9 +34,7 @@ def scrape_re_zero():
     for submission in reddit.subreddit('re_zero').search('[Translation]', sort='new', time_filter='day'):
         if ('[Translation]' in submission.title and not submission.is_self and submission.permalink not in cache
             and submission.author == 'TranslationChicken'):
-            print(submission.title + ' ' + submission.url)
-            cache.append(submission.permalink)
-            output += (submission.title + ' https://www.reddit.com' + submission.permalink + '\n\n')
+            sendMessage(submission.title, submission.url, submission.permalink)
     if output != '':
         bot.send_message(chat_id=57658796, text='RE:ZERO:\n\n' + output)
 
@@ -51,9 +47,7 @@ def scrape_anime():
         for submission in reddit.subreddit('anime').search(anime, sort='new', time_filter='day'):
             title = submission.title.lower()
             if '[spoilers]' in title and 'discussion' in title and submission.is_self and submission.permalink not in cache:
-                print(submission.title + ' ' + submission.url)
-                cache.append(submission.permalink)
-                output += (submission.title + ' https://www.reddit.com' + submission.permalink + '\n\n')
+                sendMessage(submission.title, submission.url, submission.permalink)
     if output != '':
         bot.send_message(chat_id=57658796, text='ANIME:\n\n' + output)
         
@@ -69,3 +63,11 @@ scrape_manga()
 scrape_re_zero()
 scrape_anime()
 sched.start()
+
+def sendMessage(title, url, permalink):
+    try:
+        print(title + ' ' + url)
+    except UnicodeEncodeError:
+        print(url)
+    cache.append(permalink)
+    output += (title + ' https://www.reddit.com' + permalink + '\n\n')
