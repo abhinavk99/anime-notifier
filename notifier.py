@@ -14,6 +14,11 @@ sched = BlockingScheduler()
 
 cache = []
 
+def print_title(title, permalink):
+    cache.append(permalink)
+    return (title + ' https://www.reddit.com' + permalink + '\n\n')
+
+
 @sched.scheduled_job('interval', seconds=cfg.manga_interval)
 def scrape_manga():
     print('Checking for manga at ' + str(datetime.now()))
@@ -22,7 +27,7 @@ def scrape_manga():
         for submission in reddit.subreddit('manga').search(manga, sort='new', time_filter='day'):
             title = submission.title.lower()
             if '[disc]' in title and not submission.is_self and submission.permalink not in cache:
-                sendMessage(submission.title, submission.url, submission.permalink)
+                output += print_title(submission.title, submission.permalink)
     if output != '':
         bot.send_message(chat_id=57658796, text='MANGA:\n\n' + output)
 
@@ -34,7 +39,7 @@ def scrape_re_zero():
     for submission in reddit.subreddit('re_zero').search('[Translation]', sort='new', time_filter='day'):
         if ('[Translation]' in submission.title and not submission.is_self and submission.permalink not in cache
             and submission.author == 'TranslationChicken'):
-            sendMessage(submission.title, submission.url, submission.permalink)
+            output += print_title(submission.title, submission.permalink)
     if output != '':
         bot.send_message(chat_id=57658796, text='RE:ZERO:\n\n' + output)
 
@@ -47,10 +52,10 @@ def scrape_anime():
         for submission in reddit.subreddit('anime').search(anime, sort='new', time_filter='day'):
             title = submission.title.lower()
             if '[spoilers]' in title and 'discussion' in title and submission.is_self and submission.permalink not in cache:
-                sendMessage(submission.title, submission.url, submission.permalink)
+                output += print_title(submission.title, submission.permalink)
     if output != '':
         bot.send_message(chat_id=57658796, text='ANIME:\n\n' + output)
-        
+
 
 @sched.scheduled_job('interval', seconds=cfg.clear_interval)
 def clear_cache():
@@ -63,11 +68,3 @@ scrape_manga()
 scrape_re_zero()
 scrape_anime()
 sched.start()
-
-def sendMessage(title, url, permalink):
-    try:
-        print(title + ' ' + url)
-    except UnicodeEncodeError:
-        print(url)
-    cache.append(permalink)
-    output += (title + ' https://www.reddit.com' + permalink + '\n\n')
