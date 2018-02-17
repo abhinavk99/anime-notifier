@@ -20,7 +20,8 @@ def scrape_manga():
     output = ''
     for manga in cfg.manga_list:
         for submission in reddit.subreddit('manga').search(manga, sort='new', time_filter='day'):
-            if '[DISC]' in submission.title and not submission.is_self and submission.permalink not in cache:
+            title = submission.title.lower()
+            if '[disc]' in title and not submission.is_self and submission.permalink not in cache:
                 print(submission.title + ' ' + submission.url)
                 cache.append(submission.permalink)
                 output += (submission.title + ' https://www.reddit.com' + submission.permalink + '\n\n')
