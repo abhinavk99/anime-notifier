@@ -26,7 +26,7 @@ def scrape_manga():
     for manga in cfg.manga_list:
         for submission in reddit.subreddit('manga').search(manga, sort='new', time_filter='day'):
             title = submission.title.lower()
-            if '[disc]' in title and not submission.is_self and submission.permalink not in cache:
+            if '[disc]' in title and submission.permalink not in cache:
                 output += print_title(submission.title, submission.permalink)
     if output != '':
         bot.send_message(chat_id=57658796, text='MANGA:\n\n' + output)
