@@ -16,6 +16,8 @@ re_zero_interval = 0
 anime_interval = 0
 clear_interval = 0
 
+telegram_id = 11111111
+
 manga_list = [
     'Manga 1',
     'Manga 2'

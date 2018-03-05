@@ -29,7 +29,7 @@ def scrape_manga():
             if '[disc]' in title and submission.permalink not in cache:
                 output += print_title(submission.title, submission.permalink)
     if output != '':
-        bot.send_message(chat_id=57658796, text='MANGA:\n\n' + output)
+        bot.send_message(chat_id=cfg.telegram_id, text='MANGA:\n\n' + output)
 
 
 @sched.scheduled_job('interval', seconds=cfg.re_zero_interval)
@@ -41,7 +41,7 @@ def scrape_re_zero():
             and submission.author == 'TranslationChicken'):
             output += print_title(submission.title, submission.permalink)
     if output != '':
-        bot.send_message(chat_id=57658796, text='RE:ZERO:\n\n' + output)
+        bot.send_message(chat_id=cfg.telegram_id, text='RE:ZERO:\n\n' + output)
 
 
 @sched.scheduled_job('interval', seconds=cfg.anime_interval)
@@ -54,7 +54,7 @@ def scrape_anime():
             if '[spoilers]' in title and 'discussion' in title and submission.is_self and submission.permalink not in cache:
                 output += print_title(submission.title, submission.permalink)
     if output != '':
-        bot.send_message(chat_id=57658796, text='ANIME:\n\n' + output)
+        bot.send_message(chat_id=cfg.telegram_id, text='ANIME:\n\n' + output)
 
 
 @sched.scheduled_job('interval', seconds=cfg.clear_interval)
