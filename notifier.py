@@ -37,8 +37,7 @@ def scrape_re_zero():
     print('Checking for new Re:Zero chapter at ' + str(datetime.now()))
     output = ''
     for submission in reddit.subreddit('re_zero').search('[Translation]', sort='new', time_filter='day'):
-        if ('[Translation]' in submission.title and not submission.is_self and submission.permalink not in cache
-            and submission.author == 'TranslationChicken'):
+        if '[Translation]' in submission.title and not submission.is_self and submission.permalink not in cache:
             output += print_title(submission.title, submission.permalink)
     if output != '':
         bot.send_message(chat_id=cfg.telegram_id, text='RE:ZERO:\n\n' + output)
