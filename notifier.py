@@ -20,7 +20,10 @@ def print_title(title, permalink):
     """Prints post title to console and adds post link to cache
     """
     cache.append(permalink)
-    print(title)
+    try:
+        print(title)
+    except UnicodeEncodeError as e:
+        print('Error with printing the name')
     return (title + ' https://www.reddit.com' + permalink + '\n\n')
 
 
