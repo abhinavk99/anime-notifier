@@ -11,6 +11,7 @@ reddit_user_agent = 'Reddit Manga Scraper'
 telegram_token = 'Token here'
 
 # Definitely change this, otherwise your jobs will go haywire
+# Interval should be in seconds
 manga_interval = 0
 re_zero_interval = 0
 anime_interval = 0
