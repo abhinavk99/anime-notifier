@@ -71,7 +71,7 @@ def scrape_anime():
         try:
             for submission in reddit.subreddit('anime').search(anime, sort='new', time_filter='day'):
                 title = submission.title.lower()
-                if '[spoilers]' in title and 'discussion' in title and submission.is_self and submission.permalink not in cache:
+                if 'discussion' in title and submission.link_flair_text == 'Episode' and submission.is_self and submission.permalink not in cache:
                     output += print_title(submission.title, submission.permalink)
         except prawcore.exceptions.ServerError as e:
             print('Error when searching for ' + anime)
