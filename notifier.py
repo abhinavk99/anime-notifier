@@ -22,7 +22,7 @@ def print_title(title, permalink):
     cache.append(permalink)
     try:
         print(title)
-    except UnicodeEncodeError as e:
+    except UnicodeEncodeError:
         print('Error with printing the name')
     return (title + ' https://www.reddit.com' + permalink + '\n\n')
 
@@ -39,7 +39,7 @@ def scrape_manga():
                 title = submission.title.lower()
                 if '[disc]' in title and submission.permalink not in cache:
                     output += print_title(submission.title, submission.permalink)
-        except prawcore.exceptions.ServerError as e:
+        except prawcore.exceptions.ServerError:
             print('Error when searching for ' + manga)
     if output != '':
         bot.send_message(chat_id=cfg.telegram_id, text='MANGA:\n\n' + output)
@@ -55,7 +55,7 @@ def scrape_re_zero():
         for submission in reddit.subreddit('re_zero').search('[Translation]', sort='new', time_filter='day'):
             if '[Translation]' in submission.title and not submission.is_self and submission.permalink not in cache:
                 output += print_title(submission.title, submission.permalink)
-    except prawcore.exceptions.ServerError as e:
+    except prawcore.exceptions.ServerError:
         print('Error when searching for Re:Zero')
     if output != '':
         bot.send_message(chat_id=cfg.telegram_id, text='RE:ZERO:\n\n' + output)
@@ -68,12 +68,14 @@ def scrape_anime():
     print('Checking for anime at ' + str(datetime.now()))
     output = ''
     for anime in cfg.anime_list:
+        print(anime)
         try:
             for submission in reddit.subreddit('anime').search(anime, sort='new', time_filter='day'):
+                print(submission.title)
                 title = submission.title.lower()
                 if 'discussion' in title and submission.link_flair_text == 'Episode' and submission.is_self and submission.permalink not in cache:
                     output += print_title(submission.title, submission.permalink)
-        except prawcore.exceptions.ServerError as e:
+        except prawcore.exceptions.ServerError:
             print('Error when searching for ' + anime)
     if output != '':
         bot.send_message(chat_id=cfg.telegram_id, text='ANIME:\n\n' + output)
