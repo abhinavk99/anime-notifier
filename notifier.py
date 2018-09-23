@@ -68,10 +68,8 @@ def scrape_anime():
     print('Checking for anime at ' + str(datetime.now()))
     output = ''
     for anime in cfg.anime_list:
-        print(anime)
         try:
             for submission in reddit.subreddit('anime').search(anime, sort='new', time_filter='day'):
-                print(submission.title)
                 title = submission.title.lower()
                 if 'discussion' in title and submission.link_flair_text == 'Episode' and submission.is_self and submission.permalink not in cache:
                     output += print_title(submission.title, submission.permalink)
